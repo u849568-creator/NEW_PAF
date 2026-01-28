@@ -1,18 +1,25 @@
+import { state } from "../core/state.js";
+
 /**
  * @param {HTMLElement} container
  * @param {Object} produit
  * @param {"edit"|"create"} mode
  */
-import { state } from "../core/state.js";
-
 export function renderLogistiqueSection(container, produit, mode = "edit") {
+  if (!container) return;
+
   container.innerHTML = "";
 
   const disabled = mode === "read" ? "disabled" : "";
 
   const table = document.createElement("table");
   table.innerHTML = `
-    <tr><th></th><th>Monoprix</th><th>Franprix</th><th>Casino</th></tr>
+    <tr>
+      <th></th>
+      <th>Monoprix</th>
+      <th>Franprix</th>
+      <th>Casino</th>
+    </tr>
     <tr>
       <th>Entrepôt</th>
       <td><input type="checkbox" ${disabled} data-field="LIVRAISON_ENTREPOT_MONOPRIX"></td>
@@ -27,23 +34,23 @@ export function renderLogistiqueSection(container, produit, mode = "edit") {
     </tr>
   `;
 
-  // init values
-  table.querySelectorAll("input[type=checkbox]").forEach(input => {
+  // Initialisation + gestion du pending
+  table.querySelectorAll('input[type="checkbox"]').forEach(input => {
     const field = input.dataset.field;
     input.checked = !!produit[field];
 
-    // update local model (pas encore de pending)
-    
-input.addEventListener("change", () => {
-  const value = input.checked;
-  produit[field] = value;
+    input.addEventListener("change", () => {
+      const value = input.checked;
+      produit[field] = value;
 
-  if (!state.pending.PRODUIT[produit.id]) {
-    state.pending.PRODUIT[produit.id] = {};
-  }
+      // init pending pour ce produit
+      if (!state.pending.PRODUIT[produit.id]) {
+        state.pending.PRODUIT[produit.id] = {};
+      }
 
-  state.pending.PRODUIT[produit.id][field] = value;
-});
+      state.pending.PRODUIT[produit.id][field] = value;
+    });
+  });
 
   container.appendChild(table);
 }
