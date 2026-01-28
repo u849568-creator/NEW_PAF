@@ -6,10 +6,11 @@ console.log("Produit vide :", createEmptyProduit());
 
 function wireHeaderButtons() {
   // Nouveau produit
-    document.getElementById("btnNewProduct")?.addEventListener("click", () => {
-  const produit = createEmptyProduit();   // produit vide
-  renderProduitDetail(produit);            // même écran que l’édition
-  showDetailView();                        // bascule UX
+   document.getElementById("btnNewProduct")?.addEventListener("click", (e) => {
+  e.preventDefault(); // sécurité absolue
+  const produit = createEmptyProduit();
+  renderProduitDetail(produit);
+  showDetailView();
 });
   });
 
