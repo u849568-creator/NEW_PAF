@@ -22,14 +22,20 @@ export function renderProduitDetail(produit, mode = "edit") {
   const wrapper = document.createElement("div");
   wrapper.className = "product-detail";
 
+  // ⚠️ IMPORTANT : paf-section est bien déclaré ici
   wrapper.innerHTML = `
     <h3>Détail produit</h3>
 
+    <!-- PAF -->
+    <div id="paf-section"></div>
+
+    <!-- Logistique -->
     <div class="section">
       <div class="section-header">Logistique</div>
       <div class="section-content" id="logistique-section"></div>
     </div>
 
+    <!-- Actions -->
     <div class="actions">
       <span id="pendingInfo" class="badge"></span>
       <button id="btnSave">Valider</button>
@@ -39,11 +45,36 @@ export function renderProduitDetail(produit, mode = "edit") {
 
   container.appendChild(wrapper);
 
-  // --- Render Logistique ---
+  // =====================
+  // PAF (Référencement + Diffusion)
+  // =====================
+  const pafContainer = document.getElementById("paf-section");
+
+  // temporaire (sera branché DB ensuite)
+  const annees = [
+    { id: 2024, label: "2024" },
+    { id: 2025, label: "2025" }
+  ];
+
+  const reseaux = [
+    { id: 1, label: "Monoprix" },
+    { id: 2, label: "Franprix" },
+    { id: 3, label: "Casino" }
+  ];
+
+  const pafModel = createEmptyPaf();
+
+  renderPafSection(pafContainer, pafModel, annees, reseaux, mode);
+
+  // =====================
+  // Logistique
+  // =====================
   const logistiqueContainer = document.getElementById("logistique-section");
   renderLogistiqueSection(logistiqueContainer, produit, mode);
 
-  // --- Pending UI ---
+  // =====================
+  // Pending UI
+  // =====================
   const pendingInfo = document.getElementById("pendingInfo");
   const btnSave = document.getElementById("btnSave");
   const btnCancel = document.getElementById("btnCancel");
