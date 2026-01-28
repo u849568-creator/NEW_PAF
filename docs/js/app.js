@@ -12,7 +12,7 @@ function wireHeaderButtons() {
   renderProduitDetail(produit);
   showDetailView();
 });
-  });
+
 
   // Retour à la liste
   document.getElementById("backToList")?.addEventListener("click", () => {
