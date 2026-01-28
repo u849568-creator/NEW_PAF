@@ -10,7 +10,7 @@ import { createEmptyNomenclature } from "../domain/nomenclature.model.js";
  * @param {Object} produit
  * @param {"edit"|"create"} mode
  */
-export function renderProduitDetail(produit, mode = "edit") {
+export async function renderProduitDetail(produit, mode = "edit") {
   state.currentProduit = produit;
 
   const container = document.getElementById("product-detail");
@@ -89,21 +89,42 @@ renderNomenclatureSection(nomContainer, nomenclatureModel, mode);
   // =====================
   const pafContainer = document.getElementById("paf-section");
 
-  // temporaire (sera branché DB ensuite)
-  const annees = [
-    { id: 2024, label: "2024" },
-    { id: 2025, label: "2025" }
-  ];
+ // =====================
+// PAF réel (lecture DB)
+// =====================
+let pafRows = [];
+try {
+  if (produit.id) {
+    pafRows = await fetchPafByProduit(produit.id);
+  }
+} catch (e) {
+  console.error("Erreur chargement PAF", e);
+}
 
-  const reseaux = [
-    { id: 1, label: "Monoprix" },
-    { id: 2, label: "Franprix" },
-    { id: 3, label: "Casino" }
-  ];
+const pafModel = buildPafModel(pafRows);
 
-  const pafModel = createEmptyPaf();
+// Années dynamiques
+const annees = [
+  ...new Map(
+    pafRows.map(r => [
+      r.annee_id,
+      { id: r.annee_id, label: r.ANNEE?.ANNEE ?? r.annee_id }
+    ])
+  ).values()
+].sort((a, b) => b.id - a.id);
 
-  renderPafSection(pafContainer, pafModel, annees, reseaux, mode);
+// Réseaux dynamiques
+const reseaux = [
+  ...new Map(
+    pafRows.map(r => [
+      r.reseau_id,
+      { id: r.reseau_id, label: r.RESEAU?.RESEAU ?? `Réseau ${r.reseau_id}` }
+    ])
+  ).values()
+];
+
+renderPafSection(pafContainer, pafModel, annees, reseaux, mode);
+
 
   // =====================
   // Logistique
