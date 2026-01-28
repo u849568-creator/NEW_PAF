@@ -1,4 +1,6 @@
 import { fetchLatestProduits } from "../data/produit.repo.js";
+import { renderProduitDetail } from "./produit.detail.js";
+import { normalizeProduit } from "../domain/produit.model.js";
 
 export async function renderProduitList() {
   const rows = document.getElementById("rows");
@@ -23,9 +25,10 @@ export async function renderProduitList() {
     tr.append(tdEan, tdLib, tdCode);
 
     // on câblera l’ouverture détails à l’étape 2
-    tr.addEventListener("click", () => {
-      console.log("open product", p.id);
-    });
+tr.addEventListener("click", () => {
+  const produit = normalizeProduit(p);
+  renderProduitDetail(produit, "edit");
+});
 
     rows.appendChild(tr);
   });
