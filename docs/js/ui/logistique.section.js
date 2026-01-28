@@ -34,23 +34,23 @@ export function renderLogistiqueSection(container, produit, mode = "edit") {
     </tr>
   `;
 
-  // Initialisation + gestion du pending
-  table.querySelectorAll('input[type="checkbox"]').forEach(input => {
-    const field = input.dataset.field;
-    input.checked = !!produit[field];
-
-    input.addEventListener("change", () => {
-      const value = input.checked;
-      produit[field] = value;
-
-      // init pending pour ce produit
-      if (!state.pending.PRODUIT[produit.id]) {
-        state.pending.PRODUIT[produit.id] = {};
-      }
-
-      state.pending.PRODUIT[produit.id][field] = value;
-    });
+// Initialisation + gestion du pending
+table.querySelectorAll('input[type="checkbox"]').forEach(input => {
+  const field = input.dataset.field;
+  input.checked = !!produit[field];
+  input.addEventListener("change", () => {
+    const value = input.checked;
+    produit[field] = value;
+    // init pending pour ce produit
+    if (!state.pending.PRODUIT) {
+      state.pending.PRODUIT = {};
+    }
+    if (!state.pending.PRODUIT[produit.id]) {
+      state.pending.PRODUIT[produit.id] = {};
+    }
+    state.pending.PRODUIT[produit.id][field] = value;
   });
+});
 
   container.appendChild(table);
 }
