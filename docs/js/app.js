@@ -4,13 +4,6 @@ import { createEmptyProduit } from "./domain/produit.model.js";
 import { showListView, showDetailView } from "./ui/navigation.js";
 import { renderColumnSelector } from "./ui/column.selector.js";
 
-function main() {
-  wireHeaderButtons();
-  renderColumnSelector(document.getElementById("column-selector"));
-  await renderProduitList();
-  showListView();
-}
-
 function wireHeaderButtons() {
   // ➕ Ajouter un produit
   const btnNewProduct = document.getElementById("btnNewProduct");
@@ -22,7 +15,6 @@ function wireHeaderButtons() {
       showDetailView();
     });
   }
-
   // ⬅ Retour à la liste
   const backToList = document.getElementById("backToList");
   if (backToList) {
@@ -30,7 +22,6 @@ function wireHeaderButtons() {
       showListView();
     });
   }
-
   // Logout
   const btnLogout = document.getElementById("btnLogout");
   if (btnLogout) {
@@ -42,6 +33,7 @@ function wireHeaderButtons() {
 
 async function main() {
   wireHeaderButtons();
+  renderColumnSelector(document.getElementById("column-selector"));
   await renderProduitList();
   showListView(); // état initial
 }
