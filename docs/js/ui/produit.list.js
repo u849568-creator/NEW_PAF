@@ -1,6 +1,7 @@
 import { fetchLatestProduits } from "../data/produit.repo.js";
 import { renderProduitDetail } from "./produit.detail.js";
 import { normalizeProduit } from "../domain/produit.model.js";
+import { showDetailView } from "./navigation.js";
 
 export async function renderProduitList() {
   const rows = document.getElementById("rows");
@@ -28,6 +29,8 @@ export async function renderProduitList() {
 tr.addEventListener("click", () => {
   const produit = normalizeProduit(p);
   renderProduitDetail(produit, "edit");
+  showDetailView();
+
 });
 
     rows.appendChild(tr);
