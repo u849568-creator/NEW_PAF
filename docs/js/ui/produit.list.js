@@ -1,4 +1,4 @@
-import { fetchLatestProduits } from "./data/produit.repo.js";
+import { fetchLatestProduits } from "../data/produit.repo.js";
 
 export async function renderProduitList() {
   const rows = document.getElementById("rows");
