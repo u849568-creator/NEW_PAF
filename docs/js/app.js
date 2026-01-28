@@ -3,26 +3,33 @@ import { renderProduitDetail } from "./ui/produit.detail.js";
 import { createEmptyProduit } from "./domain/produit.model.js";
 import { showListView, showDetailView } from "./ui/navigation.js";
 
-console.log("Produit vide :", createEmptyProduit());
-
 function wireHeaderButtons() {
   // ➕ Ajouter un produit
-  document.getElementById("btnNewProduct")?.addEventListener("click", (e) => {
-    e.preventDefault();
-    const produit = createEmptyProduit();
-    renderProduitDetail(produit);
-    showDetailView();
-  });
+  const btnNewProduct = document.getElementById("btnNewProduct");
+  if (btnNewProduct) {
+    btnNewProduct.addEventListener("click", (e) => {
+      e.preventDefault();
+      const produit = createEmptyProduit();
+      renderProduitDetail(produit);
+      showDetailView();
+    });
+  }
 
   // ⬅ Retour à la liste
-  document.getElementById("backToList")?.addEventListener("click", () => {
-    showListView();
-  });
+  const backToList = document.getElementById("backToList");
+  if (backToList) {
+    backToList.addEventListener("click", () => {
+      showListView();
+    });
+  }
 
   // Logout
-  document.getElementById("btnLogout")?.addEventListener("click", () => {
-    alert("TODO logout()");
-  });
+  const btnLogout = document.getElementById("btnLogout");
+  if (btnLogout) {
+    btnLogout.addEventListener("click", () => {
+      alert("TODO logout()");
+    });
+  }
 }
 
 async function main() {
