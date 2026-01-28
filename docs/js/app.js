@@ -3,6 +3,7 @@ import { renderProduitDetail } from "./ui/produit.detail.js";
 import { createEmptyProduit } from "./domain/produit.model.js";
 import { showListView, showDetailView } from "./ui/navigation.js";
 import { renderColumnSelector } from "./ui/column.selector.js";
+import { renderTableHeader } from "./ui/table.header.js";
 
 function wireHeaderButtons() {
   // ➕ Ajouter un produit
@@ -32,10 +33,24 @@ function wireHeaderButtons() {
 }
 
 async function main() {
+  // Boutons header (nouveau produit, retour, logout)
   wireHeaderButtons();
-  renderColumnSelector(document.getElementById("column-selector"));
+
+  // Génération dynamique du header de table
+  const table = document.querySelector("table");
+  renderTableHeader(table);
+
+  // Sélecteur de colonnes (groupes)
+  const selectorContainer = document.getElementById("column-selector");
+  if (selectorContainer) {
+    renderColumnSelector(selectorContainer);
+  }
+
+  // Chargement des produits
   await renderProduitList();
-  showListView(); // état initial
+
+  // Vue initiale = liste
+  showListView();
 }
 
 main().catch(err => {
