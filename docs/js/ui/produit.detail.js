@@ -25,8 +25,13 @@ export function renderProduitDetail(produit, mode = "edit") {
   wrapper.className = "product-detail";
 
   // ⚠️ IMPORTANT : paf-section est bien déclaré ici
-  wrapper.innerHTML = `
-    <h3>Détail produit</h3>
+wrapper.innerHTML = `
+  <!-- Header produit -->
+  <div class="product-header">
+    <div><strong>EAN :</strong> ${produit.EAN || "-"}</div>
+    <div><strong>Libellé :</strong> ${produit.LIBELLE || "-"}</div>
+    <div><strong>Code S :</strong> ${produit.CODE_S || "-"}</div>
+  </div>
 
     <!-- PAF -->
     <div id="paf-section"></div>
