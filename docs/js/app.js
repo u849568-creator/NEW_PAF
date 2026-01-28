@@ -7,7 +7,11 @@ console.log("Produit vide :", createEmptyProduit());
 function wireHeaderButtons() {
   // Nouveau produit
   document.getElementById("btnNewProduct")?.addEventListener("click", () => {
-    window.location.href = "new_product.html";
+    document.getElementById("btnNewProduct")?.addEventListener("click", () => {
+  const produit = createEmptyProduit();   // produit vide
+  renderProduitDetail(produit);            // même écran que l’édition
+  showDetailView();                        // bascule UX
+});
   });
 
   // Retour à la liste
