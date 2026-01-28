@@ -1,6 +1,8 @@
 import { renderLogistiqueSection } from "./logistique.section.js";
 import { state, hasPending, resetPending } from "../core/state.js";
 import { saveProduitPending } from "../domain/save.service.js";
+import { renderPafSection } from "./paf.section.js";
+import { createEmptyPaf } from "../domain/paf.model.js";
 
 /**
  * @param {Object} produit
