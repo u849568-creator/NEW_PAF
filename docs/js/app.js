@@ -1,11 +1,15 @@
 import { renderProduitList } from "./ui/produit.list.js";
 import { createEmptyProduit } from "./domain/produit.model.js";
+import { showListView } from "./ui/navigation.js";
 
 console.log("Produit vide :", createEmptyProduit());
 
 function wireHeaderButtons() {
   document.getElementById("btnNewProduct")?.addEventListener("click", () => {
     window.location.href = "new_product.html";
+    
+    document.getElementById("backToList")?.addEventListener("click", () => {
+  showListView();
   });
 
   document.getElementById("btnLogout")?.addEventListener("click", () => {
