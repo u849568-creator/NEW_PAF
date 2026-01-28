@@ -22,3 +22,5 @@ async function logout(redirectTo = "index.html") {
   await db.auth.signOut();
   window.location.href = redirectTo;
 }
+
+export { db, checkAuth, logout };
