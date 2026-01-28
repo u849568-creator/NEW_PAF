@@ -1,26 +1,12 @@
 // supabaseClient.js
 
-const supabaseUrl = "https://cmwpwpiougayrizofnru.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNtd3B3cGlvdWdheXJpem9mbnJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc3ODQxMTUsImV4cCI6MjA4MzM2MDExNX0.wik4VvmF8oAasCZ6YZMbcrzaRKKYPMrYkZgb4en4E2A";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-const db = supabase.createClient(supabaseUrl, supabaseKey);
+/**
+ * IMPORTANT:
+ * Remplace avec tes valeurs (ou mieux: fichier non versionné).
+ */
+const SUPABASE_URL = "https://cmwpwpiougayrizofnru.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNtd3B3cGlvdWdheXJpem9mbnJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc3ODQxMTUsImV4cCI6MjA4MzM2MDExNX0.wik4VvmF8oAasCZ6YZMbcrzaRKKYPMrYkZgb4en4E2A";
 
-// Fonction utilitaire pour vérifier si l'utilisateur est connecté
-async function checkAuth(redirectTo = "index.html") {
-  const { data: { session } } = await db.auth.getSession();
-
-  if (!session) {
-    window.location.href = redirectTo;
-    return null;
-  }
-
-  return session.user;
-}
-
-// Fonction utilitaire pour se déconnecter
-async function logout(redirectTo = "index.html") {
-  await db.auth.signOut();
-  window.location.href = redirectTo;
-}
-
-export { db, checkAuth, logout };
+export const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
