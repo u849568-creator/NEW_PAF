@@ -5,6 +5,8 @@ import { renderPafSection } from "./paf.section.js";
 import { createEmptyPaf } from "../domain/paf.model.js";
 import { renderNomenclatureSection } from "./nomenclature.section.js";
 import { createEmptyNomenclature } from "../domain/nomenclature.model.js";
+import { fetchPafByProduit } from "../data/paf.repo.js";
+import { buildPafModel } from "../domain/paf.model.js";
 
 /**
  * @param {Object} produit
