@@ -16,7 +16,7 @@ function wireHeaderButtons() {
 
 async function main() {
   wireHeaderButtons();
-  await renderEmptyProduit();
+  await renderProduitList();
 }
 
 main().catch(err => {
