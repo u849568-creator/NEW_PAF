@@ -3,6 +3,8 @@
  * @param {Object} produit
  * @param {"edit"|"create"} mode
  */
+import { state } from "../core/state.js";
+
 export function renderLogistiqueSection(container, produit, mode = "edit") {
   container.innerHTML = "";
 
@@ -31,10 +33,17 @@ export function renderLogistiqueSection(container, produit, mode = "edit") {
     input.checked = !!produit[field];
 
     // update local model (pas encore de pending)
-    input.addEventListener("change", () => {
-      produit[field] = input.checked;
-    });
-  });
+    
+input.addEventListener("change", () => {
+  const value = input.checked;
+  produit[field] = value;
+
+  if (!state.pending.PRODUIT[produit.id]) {
+    state.pending.PRODUIT[produit.id] = {};
+  }
+
+  state.pending.PRODUIT[produit.id][field] = value;
+});
 
   container.appendChild(table);
 }
