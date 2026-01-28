@@ -6,7 +6,6 @@ console.log("Produit vide :", createEmptyProduit());
 
 function wireHeaderButtons() {
   // Nouveau produit
-  document.getElementById("btnNewProduct")?.addEventListener("click", () => {
     document.getElementById("btnNewProduct")?.addEventListener("click", () => {
   const produit = createEmptyProduit();   // produit vide
   renderProduitDetail(produit);            // même écran que l’édition
