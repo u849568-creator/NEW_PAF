@@ -2,6 +2,14 @@ import { renderProduitList } from "./ui/produit.list.js";
 import { renderProduitDetail } from "./ui/produit.detail.js";
 import { createEmptyProduit } from "./domain/produit.model.js";
 import { showListView, showDetailView } from "./ui/navigation.js";
+import { renderColumnSelector } from "./ui/column.selector.js";
+
+function main() {
+  wireHeaderButtons();
+  renderColumnSelector(document.getElementById("column-selector"));
+  await renderProduitList();
+  showListView();
+}
 
 function wireHeaderButtons() {
   // ➕ Ajouter un produit
