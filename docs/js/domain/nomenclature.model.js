@@ -1,25 +1,20 @@
 export function createEmptyNomenclature() {
   return {
-    CIRCANA: {
-      MARCHE: "",
-      RAYON: "",
-      GROUPE_FAMILLE: "",
-      CATEGORIE: "",
-      TYPE: "",
-      SS_TYPE: ""
-    },
     MONOPRIX: {
-      RAYON: "",
-      UG: ""
+      RAY_MON_ID: null,
+      UG_MON_ID: null
+    },
+    CIRCANA: {
+      MARCHE_CIRCANA_ID: null,
+      RAYON_CIRCANA_ID: null,
+      CATEGORIE_CIRCANA_ID: null,
+      TYPE_CIRCANA_ID: null,
+      SS_TYPE_CIRCANA_ID: null
     },
     FRANPRIX: {
-      UNIVERS: "",
-      RAYON: "",
-      SS_GROUPE: ""
-    },
-    CASINO: {
-      UE: "",
-      FAMILLE: ""
+      UNIVERS_FPX_ID: null,
+      RAY_FPX_ID: null,
+      SS_GROUPE_FPX_ID: null
     }
   };
 }
