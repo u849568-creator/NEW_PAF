@@ -3,6 +3,8 @@ import { state, hasPending, resetPending } from "../core/state.js";
 import { saveProduitPending } from "../domain/save.service.js";
 import { renderPafSection } from "./paf.section.js";
 import { createEmptyPaf } from "../domain/paf.model.js";
+import { renderNomenclatureSection } from "./nomenclature.section.js";
+import { createEmptyNomenclature } from "../domain/nomenclature.model.js";
 
 /**
  * @param {Object} produit
@@ -28,6 +30,9 @@ export function renderProduitDetail(produit, mode = "edit") {
 
     <!-- PAF -->
     <div id="paf-section"></div>
+    
+    <!-- NOMENCLATURE -->
+    <div id="nomenclature-section"></div>
 
     <!-- Logistique -->
     <div class="section">
@@ -44,6 +49,11 @@ export function renderProduitDetail(produit, mode = "edit") {
   `;
 
   container.appendChild(wrapper);
+
+  // ---- Nomenclature ----
+const nomenclatureModel = createEmptyNomenclature();
+const nomContainer = document.getElementById("nomenclature-section");
+renderNomenclatureSection(nomContainer, nomenclatureModel, mode);
 
   // =====================
   // PAF (Référencement + Diffusion)
