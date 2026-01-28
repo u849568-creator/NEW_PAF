@@ -14,6 +14,7 @@ export function renderProduitDetail(produit, mode = "edit") {
   state.currentProduit = produit;
 
   const container = document.getElementById("product-detail");
+  container.style.display = "block";
   if (!container) {
     console.error("Container #product-detail introuvable");
     return;
