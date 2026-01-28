@@ -6,6 +6,20 @@ body { font-family: Arial, sans-serif; padding: 20px; }
 }
 .top-bar h2 { margin: 0; }
 
+.product-header {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  gap: 12px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f9fafb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
 button {
   padding: 6px 12px;
   background: #0066cc;
