@@ -1,4 +1,6 @@
-import { renderProduitList } from "./ui/produit.list.js";
+import { createEmptyProduit } from "./domain/produit.model.js";
+
+console.log("Produit vide :", createEmptyProduit());
 
 function wireHeaderButtons() {
   document.getElementById("btnNewProduct")?.addEventListener("click", () => {
