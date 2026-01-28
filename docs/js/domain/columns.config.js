@@ -1,18 +1,32 @@
 export const COLUMN_GROUPS = {
   IDENTITE: {
     label: "Identité",
-    columns: ["EAN", "LIBELLE", "CODE_S"]
+    columns: [
+      { key: "EAN", label: "EAN" },
+      { key: "LIBELLE", label: "Libellé" },
+      { key: "CODE_S", label: "Code S" }
+    ]
   },
   NOMENCLATURE_MONOPRIX: {
     label: "Nomenclature Monoprix",
-    columns: ["RAY_MON", "UG_MON"]
+    columns: [
+      { key: "RAY_MON", label: "Rayon MON" },
+      { key: "UG_MON", label: "UG MON" }
+    ]
   },
   NOMENCLATURE_FRANPRIX: {
     label: "Nomenclature Franprix",
-    columns: ["UNIVERS_FPX", "RAY_FPX", "SS_GROUPE_FPX"]
+    columns: [
+      { key: "UNIVERS_FPX", label: "Univers FPX" },
+      { key: "RAY_FPX", label: "Rayon FPX" },
+      { key: "SS_GROUPE_FPX", label: "Sous-groupe FPX" }
+    ]
   },
   NOMENCLATURE_CASINO: {
     label: "Nomenclature Casino",
-    columns: ["UE_CASINO", "FAMILLE_CASINO"]
+    columns: [
+      { key: "UE_CASINO", label: "UE Casino" },
+      { key: "FAMILLE_CASINO", label: "Famille Casino" }
+    ]
   }
 };
