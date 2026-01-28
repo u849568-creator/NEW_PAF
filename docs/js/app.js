@@ -41,4 +41,5 @@ async function main() {
 main().catch(err => {
   console.error(err);
   alert(err?.message ?? String(err));
+  
 });
