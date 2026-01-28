@@ -1,12 +1,14 @@
+import { fetchReferentiel } from "../data/nomenclature.repo.js";
+
 /**
  * @param {HTMLElement} container
  * @param {Object} model
  * @param {"edit"|"create"} mode
  */
-export function renderNomenclatureSection(container, model, mode = "edit") {
+export async function renderNomenclatureSection(container, model, mode = "edit") {
   if (!container) return;
 
-  const disabled = mode === "read" ? "disabled" : "";
+  const disabled = mode === "read";
 
   container.innerHTML = `
     <div class="section">
@@ -17,15 +19,11 @@ export function renderNomenclatureSection(container, model, mode = "edit") {
         <div class="nomenclature-block full">
           <div class="nomenclature-title">CIRCANA</div>
           <div class="nomenclature-fields horizontal">
-            ${input("Marché", "CIRCANA.MARCHE", model, disabled)}
-            ${input("Rayon", "CIRCANA.RAYON", model, disabled)}
-            ${input("Groupe famille", "CIRCANA.GROUPE_FAMILLE", model, disabled)}
-            ${input("Catégorie", "CIRCANA.CATEGORIE", model, disabled)}
-            ${input("Type", "CIRCANA.TYPE", model, disabled)}
-            ${input("Sous-type", "CIRCANA.SS_TYPE", model, disabled)}
-          </div>
-          <div class="muted" style="margin-top:8px;">
-            (UI seulement pour l’instant — cascade et sauvegarde à venir)
+            <div data-select="MARCHE_CIRCANA_ID"></div>
+            <div data-select="RAYON_CIRCANA_ID"></div>
+            <div data-select="CATEGORIE_CIRCANA_ID"></div>
+            <div data-select="TYPE_CIRCANA_ID"></div>
+            <div data-select="SS_TYPE_CIRCANA_ID"></div>
           </div>
         </div>
 
@@ -34,23 +32,16 @@ export function renderNomenclatureSection(container, model, mode = "edit") {
           <!-- MONOPRIX -->
           <div class="nomenclature-block">
             <div class="nomenclature-title">MONOPRIX</div>
-            ${input("Rayon", "MONOPRIX.RAYON", model, disabled)}
-            ${input("UG", "MONOPRIX.UG", model, disabled)}
+            <div data-select="RAY_MON_ID"></div>
+            <div data-select="UG_MON_ID"></div>
           </div>
 
           <!-- FRANPRIX -->
           <div class="nomenclature-block">
             <div class="nomenclature-title">FRANPRIX</div>
-            ${input("Univers", "FRANPRIX.UNIVERS", model, disabled)}
-            ${input("Rayon", "FRANPRIX.RAYON", model, disabled)}
-            ${input("Sous-groupe", "FRANPRIX.SS_GROUPE", model, disabled)}
-          </div>
-
-          <!-- CASINO -->
-          <div class="nomenclature-block">
-            <div class="nomenclature-title">CASINO</div>
-            ${input("UE", "CASINO.UE", model, disabled)}
-            ${input("Famille", "CASINO.FAMILLE", model, disabled)}
+            <div data-select="UNIVERS_FPX_ID"></div>
+            <div data-select="RAY_FPX_ID"></div>
+            <div data-select="SS_GROUPE_FPX_ID"></div>
           </div>
 
         </div>
@@ -58,40 +49,63 @@ export function renderNomenclatureSection(container, model, mode = "edit") {
     </div>
   `;
 
-  // Bind inputs → modèle
-  container.querySelectorAll("input[data-path]").forEach(inputEl => {
-    inputEl.addEventListener("input", () => {
-      setValue(model, inputEl.dataset.path, inputEl.value);
-    });
+  // ---- CIRCANA ----
+  await renderSelect(container, "MARCHE_CIRCANA_ID", "MARCHE_CIRCANA", model, disabled);
+  await renderSelect(container, "RAYON_CIRCANA_ID", "RAYON_CIRCANA", model, disabled);
+  await renderSelect(container, "CATEGORIE_CIRCANA_ID", "CATEGORIE_CIRCANA", model, disabled);
+  await renderSelect(container, "TYPE_CIRCANA_ID", "TYPE_CIRCANA", model, disabled);
+  await renderSelect(container, "SS_TYPE_CIRCANA_ID", "SS_TYPE_CIRCANA", model, disabled);
+
+  // ---- MONOPRIX ----
+  await renderSelect(container, "RAY_MON_ID", "RAY_MON", model, disabled);
+  await renderSelect(container, "UG_MON_ID", "UG_MON", model, disabled);
+
+  // ---- FRANPRIX ----
+  await renderSelect(container, "UNIVERS_FPX_ID", "UNIVERS_FPX", model, disabled);
+  await renderSelect(container, "RAY_FPX_ID", "RAY_FPX", model, disabled);
+  await renderSelect(container, "SS_GROUPE_FPX_ID", "SS_GROUPE_FPX", model, disabled);
+}
+
+/* ---------- Helpers ---------- */
+
+async function renderSelect(container, field, table, model, disabled) {
+  const target = container.querySelector(`[data-select="${field}"]`);
+  if (!target) return;
+
+  const label = document.createElement("label");
+  label.textContent = labelFromField(field);
+
+  const select = document.createElement("select");
+  select.disabled = disabled;
+
+  select.innerHTML = `<option value="">—</option>`;
+
+  const rows = await fetchReferentiel(table);
+
+  rows.forEach(r => {
+    const opt = document.createElement("option");
+    opt.value = r.id;
+    opt.textContent = r.LIBELLE;
+    select.appendChild(opt);
   });
+
+  // pré-sélection si valeur existante
+  if (model[field]) {
+    select.value = String(model[field]);
+  }
+
+  select.addEventListener("change", () => {
+    model[field] = select.value ? Number(select.value) : null;
+  });
+
+  target.appendChild(label);
+  target.appendChild(select);
 }
 
-/* ---------- helpers ---------- */
-
-function input(label, path, model, disabled) {
-  const value = getValue(model, path) ?? "";
-  return `
-    <input
-      type="text"
-      placeholder="${label}"
-      value="${escapeHtml(value)}"
-      data-path="${path}"
-      ${disabled}
-    >
-  `;
-}
-
-function getValue(obj, path) {
-  return path.split(".").reduce((o, k) => o?.[k], obj);
-}
-
-function setValue(obj, path, value) {
-  const keys = path.split(".");
-  let ref = obj;
-  keys.slice(0, -1).forEach(k => ref = ref[k]);
-  ref[keys.at(-1)] = value;
-}
-
-function escapeHtml(str = "") {
-  return str.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+function labelFromField(field) {
+  return field
+    .replace("_ID", "")
+    .replaceAll("_", " ")
+    .toLowerCase()
+    .replace(/(^|\s)\S/g, l => l.toUpperCase());
 }
