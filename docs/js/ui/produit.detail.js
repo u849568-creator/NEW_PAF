@@ -29,10 +29,21 @@ export function renderProduitDetail(produit, mode = "edit") {
 wrapper.innerHTML = `
   <!-- Header produit -->
   <div class="product-header">
-    <div><strong>EAN :</strong> ${produit.EAN || "-"}</div>
-    <div><strong>Libellé :</strong> ${produit.LIBELLE || "-"}</div>
-    <div><strong>Code S :</strong> ${produit.CODE_S || "-"}</div>
+  <div>
+    <label>EAN</label>
+    <input type="text" id="inputEAN" value="${produit.EAN ?? ""}">
   </div>
+
+  <div>
+    <label>Libellé</label>
+    <input type="text" id="inputLIBELLE" value="${produit.LIBELLE ?? ""}">
+  </div>
+
+  <div>
+    <label>Code S</label>
+    <input type="text" id="inputCODES" value="${produit.CODE_S ?? ""}">
+  </div>
+</div>
 
     <!-- PAF -->
     <div id="paf-section"></div>
@@ -55,6 +66,18 @@ wrapper.innerHTML = `
   `;
 
   container.appendChild(wrapper);
+  
+  document.getElementById("inputEAN").addEventListener("input", e => {
+  produit.EAN = e.target.value;
+});
+
+document.getElementById("inputLIBELLE").addEventListener("input", e => {
+  produit.LIBELLE = e.target.value;
+});
+
+document.getElementById("inputCODES").addEventListener("input", e => {
+  produit.CODE_S = e.target.value;
+});
 
   // ---- Nomenclature ----
 const nomenclatureModel = createEmptyNomenclature();
